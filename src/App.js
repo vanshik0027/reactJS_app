@@ -5,13 +5,7 @@ import Navbar from './components/Navbar';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
 import About from './components/About';
-
-import{
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 function App() {
   let initTodo;
@@ -45,27 +39,19 @@ function App() {
   };
 
   return (
-    <>
     <Router>
       <Navbar searchBar1={false} title='TodoList' home='Home' />
-      <Switch>
-        <Route path="/" render={()=>{
-          return(
-            <>
+      <Routes>
+        <Route exact path="/" element={
+          <>
             <AddTodo addTodo={addTodo} />
             <Todos todos={todos} onDelete={onDelete} />
-
-            </>)
-        }}>
-        </Route>
-        <Route path="/about">
-        <About/>
-        </Route>
-
-      </Switch>
+          </>
+        } />
+        <Route exact path="/about" element={<About />} />
+      </Routes>
       <Footer />
-      </Router>
-    </>
+    </Router>
   );
 }
 
