@@ -68,3 +68,21 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+    {
+        sno: 1,
+        title: "Go to the market",
+        desc: "you need to go to the market to get this " 
+    },
+    {
+        sno: 2,
+        title: "Go to mall",
+        desc: "you need to go to the mall for that " 
+    },
+    {
+        sno: 3,
+        title: "Go to temple",
+        desc: "you need to go to the  temple for Prayer " 
+    }

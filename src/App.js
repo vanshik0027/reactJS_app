@@ -1,30 +1,70 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
+import Todos from './components/Todos';
+import AddTodo from './components/AddTodo';
+import About from './components/About';
+
+import{
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
+  let initTodo;
+  if (localStorage.getItem("todos") === null) {
+    initTodo = [];
+  } else {
+    initTodo = JSON.parse(localStorage.getItem("todos"));
+  }
+
+  const [todos, setTodos] = useState(initTodo);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  const onDelete = (todo) => {
+    console.log("I'm deleting", todo);
+    setTodos(todos.filter((e) => e !== todo));
+  };
+
+  const addTodo = (title, desc) => {
+    console.log("Adding todo", title, desc);
+    let sno = todos.length ? todos[todos.length - 1].sno + 1 : 1;
+    const myTodo = {
+      sno: sno,
+      title: title,
+      desc: desc
+    };
+    setTodos([...todos, myTodo]);
+    console.log(myTodo);
+  };
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">MyApp</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">About</a>
-              </li>
-            </ul>
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
+    <Router>
+      <Navbar searchBar1={false} title='TodoList' home='Home' />
+      <Switch>
+        <Route path="/" render={()=>{
+          return(
+            <>
+            <AddTodo addTodo={addTodo} />
+            <Todos todos={todos} onDelete={onDelete} />
+
+            </>)
+        }}>
+        </Route>
+        <Route path="/about">
+        <About/>
+        </Route>
+
+      </Switch>
+      <Footer />
+      </Router>
     </>
   );
 }
